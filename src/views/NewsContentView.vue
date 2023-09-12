@@ -3,7 +3,7 @@
     <router-link to="/" class="back-link">首頁</router-link>
     <div class="news-content">
       <div class="news-header">
-        <h2>{{ newsItem ? "[" + newsItem.category + "] " + newsItem.title : '' }}</h2>
+        <h2>{{ newsItem ? "[" + newsItem.parentCategory + "] " +"[" + newsItem.category + "] " + newsItem.title : '' }}</h2>
         <p>{{ newsItem ? newsItem.publicTime : '' }}</p>
       </div>
       <div class="news-body">
