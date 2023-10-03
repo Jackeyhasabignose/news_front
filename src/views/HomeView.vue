@@ -5,9 +5,10 @@
   <div class="news-list">
     <div class="news-item" v-for="item in displayedNewsItems" :key="item.newsId">
       <h2 @click="navigateToNewsDetail(item.newsId)">
-        {{ item.parentCategory }} - {{ item.category }} - {{ item.title }}
+        ({{ item.parentCategoryName }}) - ({{ item.categoryName }}) - {{ item.title }}- ({{ item.subTitle }})
       </h2>
-      <p>{{ item.publicTime }}</p>
+      <p>{{ formatDateTime(item.publicTime) }}</p>
+
     </div>
     <news-content v-if="selectedNewsId" :newsId="selectedNewsId" />
   </div>
@@ -50,6 +51,11 @@ export default {
     },
     navigateToNewsDetail(newsId) {
       this.$router.push({ name: 'content', params: { newsId } });
+    },
+    formatDateTime(dateTime) {
+      // 将传入的日期时间字符串处理成你想要的格式，去掉时间部分的 "T" 和后面的时分秒
+      const date = new Date(dateTime);
+      return date.toLocaleDateString(); // 这里使用toLocaleDateString()来格式化日期部分
     }
   },
   computed: {
@@ -65,7 +71,13 @@ export default {
     // 计算总页数
     totalPages() {
       return Math.ceil(this.newsItems.length / this.itemsPerPage);
-    }
+    },
+    
+
+  
+
+    
+    
   },
   
 };

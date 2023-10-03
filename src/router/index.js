@@ -39,6 +39,12 @@ const router = createRouter({
       component: () => import("../views/NewsContentAdminView.vue"),
       props: true // 啟用 props 接收路由參數
     },
+    // {
+    //   path: '/NewsContent/:newsId', // 使用動態路由參數 :newsId
+    //   name: 'NewsContent',
+    //   component: () => import("../views/NewsContentView.vue"),
+    //   props: true // 啟用 props 接收路由參數
+    // },
     {
       path: '/editNews',
       name: 'EditNews',

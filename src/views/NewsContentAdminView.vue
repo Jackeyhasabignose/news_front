@@ -2,20 +2,20 @@
   <div>
     <router-link to="/back" class="back-link">上一頁</router-link>
     <div class="news-content">
-      <div class="news-header">
-        <h2>{{ newsItem ?"[" + newsItem.parentCategory + "] " + "[" + newsItem.category + "] " + newsItem.title : '' }}</h2>
-        <p>{{ newsItem ? newsItem.publicTime : '' }}</p>
-      </div>
-      <div class="news-body">
-        <p>{{ newsItem ? newsItem.content : '' }}</p>
-        <!-- 顯示修改和刪除按鈕，僅在管理者頁面中顯示 -->
-      </div>
+    <div class="news-header">
+      <h2>{{ newsItem ? "[" + newsItem.parentCategory + "] " + "[" + newsItem.category + "] " + newsItem.title + (newsItem.subTitle ? " - " + newsItem.subTitle : '') : '' }} </h2>
+      <p>{{ newsItem ? formatDateTime(newsItem.publicTime) : '' }}</p>
+    </div>
+    <div class="news-body">
+      <p>{{ newsItem ? newsItem.content : '' }}</p>
+      <!-- 顯示修改和刪除按鈕，僅在管理者頁面中顯示 -->
     </div>
   </div>
-  <div class="oo">
-    <button v-if="$route.name === 'NewsContentAdmin'" @click="editNews" class="btn btn-primary">修改</button>
-    <button v-if="$route.name === 'NewsContentAdmin'" @click="deleteNews" class="btn btn-danger">刪除</button>
   </div>
+  <!-- <div class="oo">
+    <button v-if="$route.name === 'NewsContentAdmin'" @click="editNews" class="btn btn-primary">修改</button>
+    <button v-if="$route.name === 'NewsContentAdmin'" @click="confirmDelete" class="btn btn-danger">刪除</button>
+  </div> -->
 </template>
 
 <script>
@@ -48,6 +48,11 @@ export default {
         console.error('Error fetching news content:', error);
       }
     },
+    formatDateTime(dateTime) {
+      // 将传入的日期时间字符串处理成你想要的格式，去掉时间部分的 "T" 和后面的时分秒
+      const date = new Date(dateTime);
+      return date.toLocaleDateString(); // 这里使用toLocaleDateString()来格式化日期部分
+    },
     editNews() {
       // 将需要编辑的内容存入 Session Storage
       sessionStorage.setItem('editNewsContent', this.newsItem.content);
@@ -58,6 +63,8 @@ export default {
         query: {
           title: this.newsItem.title,
           content: this.newsItem.content,
+          parentCategoryName: this.newsItem.parentCategoryName,
+          categoryName: this.newsItem.categoryName,
           newsId: this.newsId // 将newsId传递给编辑页面
         }
       });
@@ -75,7 +82,16 @@ export default {
       } catch (error) {
         console.error('Error deleting news:', error);
       }
-    }
+    },
+    confirmDelete() {
+      // 使用 confirm() 方法来弹出确认对话框
+      const isConfirmed = window.confirm('確定要刪除所選新聞嗎？');
+
+      if (isConfirmed) {
+        // 用户点击了"确定"
+        this.deleteNews();
+      }
+    },
   },
 };
 </script>

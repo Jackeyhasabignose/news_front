@@ -3,8 +3,8 @@
     <router-link to="/" class="back-link">首頁</router-link>
     <div class="news-content">
       <div class="news-header">
-        <h2>{{ newsItem ? "[" + newsItem.parentCategory + "] " +"[" + newsItem.category + "] " + newsItem.title : '' }}</h2>
-        <p>{{ newsItem ? newsItem.publicTime : '' }}</p>
+        <h2>{{ newsItem ? "[" + newsItem.parentCategory + "] " + "[" + newsItem.category + "] " + newsItem.title + (newsItem.subTitle ? " - " + newsItem.subTitle : '') : '' }} </h2>
+        <p>{{ newsItem ? formatDateTime(newsItem.publicTime) : '' }}</p>
       </div>
       <div class="news-body">
         <p>{{ newsItem ? newsItem.content : '' }}</p>
@@ -42,7 +42,12 @@ export default {
       } catch (error) {
         console.error('Error fetching news content:', error);
       }
-    }
+    },
+    formatDateTime(dateTime) {
+      // 将传入的日期时间字符串处理成你想要的格式，去掉时间部分的 "T" 和后面的时分秒
+      const date = new Date(dateTime);
+      return date.toLocaleDateString(); // 这里使用toLocaleDateString()来格式化日期部分
+    },
   }
 };
 </script>
