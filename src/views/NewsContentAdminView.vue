@@ -2,15 +2,16 @@
   <div>
     <router-link to="/back" class="back-link">上一頁</router-link>
     <div class="news-content">
-    <div class="news-header">
-      <h2>{{ newsItem ? "[" + newsItem.parentCategory + "] " + "[" + newsItem.category + "] " + newsItem.title + (newsItem.subTitle ? " - " + newsItem.subTitle : '') : '' }} </h2>
-      <p>{{ newsItem ? formatDateTime(newsItem.publicTime) : '' }}</p>
+      <div class="news-header">
+        <h2>{{ newsItem ? "[" + newsItem.parentCategory + "] " + "[" + newsItem.category + "] " + newsItem.title +
+          (newsItem.subTitle ? " - " + newsItem.subTitle : '') : '' }} </h2>
+        <p>{{ newsItem ? formatDateTime(newsItem.publicTime) : '' }}</p>
+      </div>
+      <div class="news-body">
+        <p>{{ newsItem ? newsItem.content : '' }}</p>
+        <!-- 顯示修改和刪除按鈕，僅在管理者頁面中顯示 -->
+      </div>
     </div>
-    <div class="news-body">
-      <p>{{ newsItem ? newsItem.content : '' }}</p>
-      <!-- 顯示修改和刪除按鈕，僅在管理者頁面中顯示 -->
-    </div>
-  </div>
   </div>
   <!-- <div class="oo">
     <button v-if="$route.name === 'NewsContentAdmin'" @click="editNews" class="btn btn-primary">修改</button>

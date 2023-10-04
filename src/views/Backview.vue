@@ -1,69 +1,75 @@
 <template>
   <div class="oo">
-    <router-link to="/">使用者頁面</router-link>
+    <router-link to="/">前往使用者頁面</router-link>
+  </div>
+  <div class="oo">
+    <router-link to="/parentCategory">前往大分類頁面</router-link>
+  </div>
+  <div class="oo">
+    <router-link to="/category">前往小分類頁面</router-link>
   </div>
   <div class="search">
     <!-- 标题搜索 -->
     <input v-model="searchTitle" type="text" placeholder="搜尋標題" @input="reloadData" />
-    
-   <!-- 开始日期搜索 -->
-  <label for="startDate">開始日期：</label>
-  <input v-model="startDate" id="startDate" type="date" @input="reloadData" />
 
-  <!-- 结束日期搜索 -->
-  <label for="endDate">結束日期：</label>
-  <input v-model="endDate" id="endDate" type="date" @input="reloadData" />
+    <!-- 开始日期搜索 -->
+    <label for="startDate">開始日期：</label>
+    <input v-model="startDate" id="startDate" type="date" @input="reloadData" />
 
-  <!-- 分类搜索 -->
-  <label for="parentCategory">大類別：</label>
-  <select v-model="searchParentCategory" id="parentCategoryName" @change="filterNews" class="input-field2">
-    <option value="">所有</option>
-    <option v-for="category in parentCategories" :value="category.parentCategoryName" :key="category">
-      {{ category.parentCategoryName  }}
-    </option>
-  </select><br>
-  <label for="category">小類別：</label>
-  <select v-model="searchCategory" id="categoryName" class="input-field2" @change="filterNews">
-    <option value="">所有</option> 
-    <option v-for="category in categories" :value="category.categoryName" :key="category">
-      {{ category.categoryName  }}
-    </option>
-  </select>
+    <!-- 结束日期搜索 -->
+    <label for="endDate">結束日期：</label>
+    <input v-model="endDate" id="endDate" type="date" @input="reloadData" />
 
-  <!-- 添加排序方式选择 -->
-  <select v-model="sortOrder" @change="sortNews">
-    <option value="latest">以發布最新時間排序</option>
-    <option value="oldest">以發布最早時間排序</option>
-  </select>
-  
-  <button @click="confirmDelete" class="btn btn-danger">一鍵刪除</button>
-  <router-link to="/add" class="btn btn-primary me-md-2">新增最新消息</router-link>
-</div>
-  
-<div class="news-list">
-  <!-- 新闻列表 -->
-  <div class="news-item" v-for="item in displayedNewsItems" :key="item.newsId">
-    <div class="news-header">
-      <input type="checkbox" v-model="selectedNewsIds" :value="item.newsId" />
-      <h2 @click="navigateToNewsDetail(item.newsId)">({{ item.parentCategoryName }}) - ({{ item.categoryName }}) - {{ item.title }}- ({{ item.subTitle }})({{ item.status }})</h2>
-      <p>{{ formatDateTime(item.publicTime) }}</p>
-      <!-- 在这里添加修改按钮，仅在管理者页面时显示 -->
-      <button v-if="true" @click="editNews(item.newsId)" class="btn btn-primary small-button">修改</button>
+    <!-- 分类搜索 -->
+    <label for="parentCategory">大類別：</label>
+    <select v-model="searchParentCategory" id="parentCategoryName" @change="filterNews" class="input-field2">
+      <option value="">所有</option>
+      <option v-for="category in parentCategories" :value="category.parentCategoryName" :key="category">
+        {{ category.parentCategoryName }}
+      </option>
+    </select><br>
+    <label for="category">小類別：</label>
+    <select v-model="searchCategory" id="categoryName" class="input-field2" @change="filterNews">
+      <option value="">所有</option>
+      <option v-for="category in categories" :value="category.categoryName" :key="category">
+        {{ category.categoryName }}
+      </option>
+    </select>
+
+    <!-- 添加排序方式选择 -->
+    <select v-model="sortOrder" @change="sortNews">
+      <option value="latest">以發布最新時間排序</option>
+      <option value="oldest">以發布最早時間排序</option>
+    </select>
+
+    <button @click="confirmDelete" class="btn btn-danger">一鍵刪除</button>
+    <router-link to="/add" class="btn btn-primary me-md-2">新增最新消息</router-link>
+  </div>
+
+  <div class="news-list">
+    <!-- 新闻列表 -->
+    <div class="news-item" v-for="item in displayedNewsItems" :key="item.newsId">
+      <div class="news-header">
+        <input type="checkbox" v-model="selectedNewsIds" :value="item.newsId" />
+        <h2 @click="navigateToNewsDetail(item.newsId)">({{ item.parentCategoryName }}) - ({{ item.categoryName }}) - {{
+          item.title }}    <span v-if="item.subTitle">- ({{ item.subTitle }})</span>({{ item.status }})</h2>
+        <p>{{ formatDateTime(item.publicTime) }}</p>
+        <!-- 在这里添加修改按钮，仅在管理者页面时显示 -->
+        <button v-if="true" @click="editNews(item.newsId)" class="btn btn-primary small-button">修改</button>
+      </div>
+    </div>
+
+    <!-- 分页控件 -->
+    <div class="pagination">
+      <span v-for="page in totalPages" :key="page" @click="currentPage = page">{{ page }}</span>
     </div>
   </div>
-
-  <!-- 分页控件 -->
-  <div class="pagination">
-    <span v-for="page in totalPages" :key="page" @click="currentPage = page">{{ page }}</span>
-  </div>
-</div>
-<label for="itemsPerPage">顯示最新消息筆數：</label>
-<select v-model="itemsPerPage" id="itemsPerPage" @change="updateDisplayedNews">
-  <option value="10">10 筆</option>
-  <option value="50">50 筆</option>
-  <option value="100">100 筆</option>
-</select>
-
+  <label for="itemsPerPage">顯示最新消息筆數：</label>
+  <select v-model="itemsPerPage" id="itemsPerPage" @change="updateDisplayedNews">
+    <option value="10">10 筆</option>
+    <option value="50">50 筆</option>
+    <option value="100">100 筆</option>
+  </select>
 </template>
 
 <script>
@@ -108,10 +114,10 @@ export default {
       }
     },
     updateDisplayedNews() {
-    // 重新计算当前显示的新闻
-    this.currentPage = 1; // 重置当前页为第一页
-    this.sortNews(); // 重新排序
-  },
+      // 重新计算当前显示的新闻
+      this.currentPage = 1; // 重置当前页为第一页
+      this.sortNews(); // 重新排序
+    },
     async getParentCategories() {
       try {
         const response = await axios.get('http://localhost:8080/get_all_parent_categories_with_news_count');
@@ -159,7 +165,7 @@ export default {
       this.newsItems = this.originalNewsItems.filter((item) => {
         const titleMatch = this.searchTitle.trim() === '' || item.title.toLowerCase().includes(this.searchTitle.toLowerCase());
         const dateMatch = (!this.startDate || item.publicTime >= this.startDate) &&
-                          (!this.endDate || item.publicTime <= this.endDate);
+          (!this.endDate || item.publicTime <= this.endDate);
         const parentCategoryMatch = !this.searchParentCategory || item.parentCategoryName === this.searchParentCategory;
         const categoryMatch = !this.searchCategory || item.categoryName === this.searchCategory;
 
@@ -203,7 +209,7 @@ export default {
       // 更新开始日期和结束日期的值
       this.startDate = document.getElementById('startDate').value;
       this.endDate = document.getElementById('endDate').value;
-    
+
       // 调用fetchNewsData方法重新加载数据
       await this.fetchNewsData();
     },
@@ -220,10 +226,10 @@ export default {
       return this.newsItems.slice(startIndex, endIndex);
     },
     displayedNewsItems() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return this.newsItems.slice(startIndex, endIndex);
-  },
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.newsItems.slice(startIndex, endIndex);
+    },
     totalPages() {
       return Math.ceil(this.newsItems.length / this.itemsPerPage);
     },
@@ -281,6 +287,10 @@ export default {
   cursor: pointer;
 }
 
+.news-header h2 {
+    font-size: 24px; /* 调整字体大小，可以根据需要更改像素值 */
+}
+
 .search {
   margin: 20px 0;
   display: flex;
@@ -294,7 +304,7 @@ select {
 }
 
 .small-button {
-  font-size: 12px; 
-  padding: 5px 10px; 
+  font-size: 12px;
+  padding: 5px 10px;
 }
 </style>

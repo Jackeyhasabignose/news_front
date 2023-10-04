@@ -39,6 +39,12 @@ const router = createRouter({
       component: () => import("../views/NewsContentAdminView.vue"),
       props: true // 啟用 props 接收路由參數
     },
+    {
+      path: '/ParentCategoryContent/:newsId', // 使用動態路由參數 :newsId
+      name: 'ParentCategoryContent',
+      component: () => import("../views/ParentCategoryContentView.vue"),
+      props: true // 啟用 props 接收路由參數
+    },
     // {
     //   path: '/NewsContent/:newsId', // 使用動態路由參數 :newsId
     //   name: 'NewsContent',
@@ -50,6 +56,37 @@ const router = createRouter({
       name: 'EditNews',
       component: () => import("../views/EditNews.vue"),
       // props: true
+    },
+    {
+      path: '/parentCategory',
+      name: 'parentCategory',
+      component: () => import("../views/ParentCategoryView.vue")
+    },
+    {
+      path: '/category',
+      name: 'category',
+      component: () => import("../views/CategoryView.vue")
+    },
+    
+    {
+      path: '/findNewsByParentCategory/:parentCategoryName',
+      name: 'findNewsByParentCategory',
+      component: () => import("../views/FindNewsByParentCategoryView.vue")
+    },
+    {
+      path: '/findNewsByCategory/:categoryName',
+      name: 'findNewsByCategory',
+      component: () => import("../views/FindNewsByCategoryView.vue")
+    },
+    {
+      path: '/addParentcategory',
+      name: 'addParentcategory',
+      component: () => import("../views/AddParentCategoryView.vue")
+    },
+    {
+      path: '/alertParentcategory',
+      name: 'alertParentcategory',
+      component: () => import("../views/AlertParentCategoryView.vue")
     },
   ]
 })

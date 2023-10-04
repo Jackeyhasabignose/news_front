@@ -6,11 +6,11 @@
     <div class="news-item" v-for="item in displayedNewsItems" :key="item.newsId">
       <h2 @click="navigateToNewsDetail(item.newsId)">
         ({{ item.parentCategoryName }}) - ({{ item.categoryName }}) - {{ item.title }}- ({{ item.subTitle }})
+        <p>{{ formatDateTime(item.publicTime) }}</p>
       </h2>
-      <p>{{ formatDateTime(item.publicTime) }}</p>
 
+      <news-content v-if="selectedNewsId" :newsId="selectedNewsId" />
     </div>
-    <news-content v-if="selectedNewsId" :newsId="selectedNewsId" />
   </div>
   <div class="pagination">
     <span v-for="page in totalPages" :key="page" @click="currentPage = page">
@@ -20,20 +20,19 @@
 </template>
 
 <script>
-import NewsContent from './NewsContentView.vue';
 import axios from 'axios';
 
 export default {
-  components: {
-    NewsContent
-  },
+  // components: {
+  //   NewsContent
+  // },
   data() {
     return {
       newsItems: [],
       selectedNewsId: null,
       currentPage: 1,
       itemsPerPage: 10 // 每页显示的新闻数量
-      
+
     };
   },
   created() {
@@ -64,22 +63,22 @@ export default {
       return this.newsItems.slice().reverse();
     },
     displayedNewsItems() {
-  const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-  const endIndex = startIndex + this.itemsPerPage;
-  return this.newsItems.slice().reverse().slice(startIndex, endIndex);
-},
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.newsItems.slice().reverse().slice(startIndex, endIndex);
+    },
     // 计算总页数
     totalPages() {
       return Math.ceil(this.newsItems.length / this.itemsPerPage);
     },
-    
 
-  
 
-    
-    
+
+
+
+
   },
-  
+
 };
 </script>
 
@@ -95,13 +94,21 @@ export default {
   border: 1px solid #ccc;
   cursor: pointer;
 }
+
 .pagination {
   margin-top: 20px;
   display: flex;
   justify-content: center;
 }
+
 .pagination span {
   margin: 0 5px;
   cursor: pointer;
+}
+
+
+.news-item h2 {
+  font-size: 24px;
+  /* 调整字体大小，可以根据需要更改像素值 */
 }
 </style>

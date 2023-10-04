@@ -4,17 +4,17 @@
       <div class="oo">
         <h2>新增最新消息</h2>
         <label for="parentCategory">大類別：</label>
-<select v-model="parentCategoryName" id="parentCategoryName" class="input-field2">
-  <option v-for="category in parentCategories" :value="category.parentCategoryName" :key="category">
-    {{ category.parentCategoryName  }}
-  </option>
-</select><br>
-<label for="category">小類別：</label>
-<select v-model="categoryName" id="categoryName" class="input-field2">
-  <option v-for="category in categories" :value="category.categoryName" :key="category">
-    {{ category.categoryName  }}
-  </option>
-</select><br>
+        <select v-model="parentCategoryName" id="parentCategoryName" class="input-field2">
+          <option v-for="category in parentCategories" :value="category.parentCategoryName" :key="category">
+            {{ category.parentCategoryName }}
+          </option>
+        </select><br>
+        <label for="category">小類別：</label>
+        <select v-model="categoryName" id="categoryName" class="input-field2">
+          <option v-for="category in categories" :value="category.categoryName" :key="category">
+            {{ category.categoryName }}
+          </option>
+        </select><br>
 
         <!-- 日期选择器 -->
         <label for="publicTime">選擇日期：</label>
@@ -67,7 +67,7 @@ export default {
       content: '',
       parentCategoryName: '',
       categoryName: '',
-      publicTime:'',
+      publicTime: '',
       isPreviewVisible: false, // 初始化为 false，表示初始状态下隐藏预览区域
       today: new Date().toISOString().split('T')[0], // 获取今天的日期
       parentCategories: [], // 存储大类别选项
@@ -78,11 +78,11 @@ export default {
     // 获取大类别和小类别选项
     this.getParentCategories();
     this.getCategories();
-    const timeZoneOffsetHours = 8; 
+    const timeZoneOffsetHours = 8;
     const currentUTC = new Date();
     const localTime = new Date(currentUTC.getTime() + timeZoneOffsetHours * 60 * 60 * 1000);
     this.publicTime = localTime.toISOString().slice(0, 16);
-    
+
   },
   methods: {
     async getParentCategories() {
@@ -104,7 +104,7 @@ export default {
       }
     },
     async addNews() {
-      if (this.title.trim() === '' || this.content.trim() === '' || this.publicTime === ''|| this.parentCategoryName === ''|| this.categoryName === '') {
+      if (this.title.trim() === '' || this.content.trim() === '' || this.publicTime === '' || this.parentCategoryName === '' || this.categoryName === '') {
         window.alert('標題、內容和日期且類別不得為空');
         return;
       }
@@ -126,8 +126,8 @@ export default {
         this.subTitle = '';
         this.content = '';
         this.parentCategoryName = '';
-        this.categoryName = ''; 
-        this.publicTime = ''; 
+        this.categoryName = '';
+        this.publicTime = '';
 
         this.$router.push('/back');
       } catch (error) {
@@ -147,7 +147,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* 使容器佔滿整個視窗高度 */
+  min-height: 100vh;
+  /* 使容器佔滿整個視窗高度 */
 }
 
 .oo {
@@ -157,15 +158,16 @@ export default {
 }
 
 .input-field {
-  width: 500px; /* 設置寬度為容器的寬度 */
+  width: 500px;
+  /* 設置寬度為容器的寬度 */
   height: 200px;
 }
 
 .input-field2 {
-  width: 500px; /* 設置寬度為容器的寬度 */
+  width: 500px;
+  /* 設置寬度為容器的寬度 */
 }
 
 .pp {
   display: flex;
-}
-</style>
+}</style>
