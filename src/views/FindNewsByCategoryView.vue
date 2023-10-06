@@ -1,6 +1,6 @@
 <template>
     <div class="pp">
-        <router-link to="/parentCategory">返回上一頁</router-link>
+        <router-link to="/category">返回上一頁</router-link>
         <select v-model="sortOrder" @change="sortNews">
             <option value="latest">以發布最新時間排序</option>
             <option value="oldest">以發布最早時間排序</option>

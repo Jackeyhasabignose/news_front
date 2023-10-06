@@ -56,6 +56,7 @@ export default {
                     parentCategoryName: this.$route.params.parentCategoryName
                 });
                 console.log('API 响应数据:', response.data); // 输出响应数据
+                console.log('前端路由参数值:', this.$route.params.parentCategoryName);
                 this.newsList = response.data;
                 // 数据加载后进行排序
                 this.sortNews();

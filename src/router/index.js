@@ -84,9 +84,19 @@ const router = createRouter({
       component: () => import("../views/AddParentCategoryView.vue")
     },
     {
-      path: '/alertParentcategory',
-      name: 'alertParentcategory',
-      component: () => import("../views/AlertParentCategoryView.vue")
+      path: '/addCategory',
+      name: 'addCategory',
+      component: () => import("../views/AddCategoryView.vue")
+    },
+    {
+      path: '/alterParentcategory',
+      name: 'alterParentcategory',
+      component: () => import("../views/AlterParentCategoryView.vue")
+    },
+    {
+      path: '/alterCategory',
+      name: 'alterCategory',
+      component: () => import("../views/AlterCategoryView.vue")
     },
   ]
 })

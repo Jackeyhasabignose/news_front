@@ -6,7 +6,7 @@
         <div>
             <button @click="confirmDelete" class="btn btn-danger me-md-2">一鍵刪除</button>
             <router-link to="/addParentcategory" class="btn btn-primary me-md-2">新增大類別</router-link>
-            <router-link to="/alertParentcategory" class="btn btn-secondary me-md-2">修改大類別</router-link>
+            <router-link to="/alterParentcategory" class="btn btn-secondary me-md-2">修改大類別</router-link>
 
 
         </div>

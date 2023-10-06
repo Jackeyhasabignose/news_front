@@ -5,8 +5,8 @@
         </div>
         <div>
             <button @click="confirmDelete" class="btn btn-danger me-md-2">一鍵刪除</button>
-            <router-link to="/addParentcategory" class="btn btn-primary me-md-2">新增小類別</router-link>
-            <router-link to="/alertParentcategory" class="btn btn-secondary me-md-2">修改小類別</router-link>
+            <router-link to="/addCategory" class="btn btn-primary me-md-2">新增小類別</router-link>
+            <router-link to="/alterCategory" class="btn btn-secondary me-md-2">修改小類別</router-link>
 
 
         </div>
@@ -79,7 +79,7 @@ export default {
                 this.categories = this.categories.filter(category => !category.isSelected);
 
                 // 發送刪除親類別的請求到後端
-                const response = await axios.post('http://localhost:8080/getAllCategoriesWithNewsCount', {
+                const response = await axios.post('http://localhost:8080/Delete_category', {
                     categoryIds: selectedCategories.map(category => category.categoryId),
                 });
 
